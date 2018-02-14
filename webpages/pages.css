@@ -1,0 +1,39 @@
+body{
+	background-image: url(https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fb2264421ec008a297430e9e25f94eb3&auto=format&fit=crop&w=750&q=80); 
+	background-size: cover;
+	position: relative;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #d88f58;
+	font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
+}
+
+#content {
+	text-align:center;
+	margin-top: 15%;
+	color:black;
+	font-family: 'Montserrar', sans-serif;
+}
+
+hr{
+	width:40%
+}
+
+.intro-text {
+	padding-top: 150px;
+	padding-bottom: 100px;
+	font-size: 50px;
+	font-weight: 700;
+	line-height: 50px;
+	margin-bottom: 25px;
+	font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.intro-text .intro-lead-in {
+	font-size: 22px;
+	font-style: italic;
+	line-height: 22px;
+	margin-bottom: 25px;
+	font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
