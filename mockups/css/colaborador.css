@@ -1,0 +1,65 @@
+html {
+	height: 100%;
+	width: 100;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+}
+
+footer {
+	background-color: black;
+	font-family: 'Raleway', sans-serif;
+	color: white;
+}
+
+#banner {
+	background: url(https://images.unsplash.com/photo-1472437774355-71ab6752b434?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd4d735954f33290fbf984e4eb7abe32&auto=format&fit=crop&w=1567&q=80);
+	background-size: cover; 
+	height: 100%;
+	width: 100;
+}
+
+#contentBanner {
+	text-align: center;
+	margin-top: 25%;
+	color: black;
+	background-color: rgba(0,0,0,0);
+}
+
+#frase {
+	background-color: rgba(0,0,0,0.6);
+}
+
+hr {
+	width: 40%;
+}
+
+#contentBanner h3 {
+	font-family:'Raleway', sans-serif;
+	color: white;
+	} 
+
+#contentBanner h1 {
+	font-family:'Kaushan Script', cursive;
+	font-weight: 700;
+	font-size: 7em;
+	color: 	#330000;
+}
+
+#formulario {
+	background-size: cover; 
+	height: 100%;
+	width: 100;
+	font-family:'Raleway', sans-serif;
+}
+
+#formulario h1 {
+	font-family:'Raleway', sans-serif;
+	font-weight: 600;
+	font-size: 7em;
+	color: 	#330000;
+	text-align: center;
+	margin-top: 5%;
+}

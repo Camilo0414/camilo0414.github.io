@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiero Aprender</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/colaborador.css">
+	<link href="https://fonts.googleapis.com/css?family=Cinzel|Gloria+Hallelujah|Kaushan+Script|Raleway|Satisfy|Kavivanar" rel="stylesheet">
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">LearnersInTheMatch</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-user"></span> Beatriz Sanchez</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-log-in"></span> Cerrar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" id="banner">
+    	<div class="row">
+			<div class="col-lg-12">
+				<div id="contentBanner">
+					<h1>Descubre, Aprende y Practica</h1>
+					<br />
+					<div id="frase" class="panel panel-default">
+					<h3>En esta sección podras inscribirte en temas que sean de tu interés, que ayuden en tu proceso de aprendizaje y fortalezcan tu background profesional </h3>	
+					</div>				
+					<hr>
+					<a href="#formulario" class="btn btn-danger" role="button" area-pressed="true">Comienza ahora</a>
+				</div>
+			</div>
+		</div>
+    	
+    </div>
+	<div class="container" id="formulario">
+		<br/>
+		<h1>Puedes ser aprendiz o ser guía</h1>
+		<br/>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+					</span>
+					<input type="text" class="form-control" placeholder="Buscar Tema">
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 -->
+			<div class="col-lg-6">
+				<div class="form-group">
+					<select class="form-control" name="experticia">
+						<option value="">Seleccione un nivel de experticia</option>
+						<option value="nb">Nivel Basico</option>
+						<option value="ni">Nivel Intermedio</option>						
+					</select>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-6">
+			   <textarea class="form-control" rows="7" disabled="true"></textarea>
+		    </div>
+		    <div class="col-lg-6">
+		    	<h3>Quiero inscribirme como:</h3>
+		    	<div class="radio">
+		    		<label>
+		    			<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+		    		    Aprendiz
+		    		</label>
+		    	</div>
+		    	<div class="radio">
+		    		<label>
+		    			<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+		    			Guia
+		    		</label>
+		    	</div>
+		    	<button type="button" class="btn btn-primary">Inscribirme</button>
+		    	<button type="button" class="btn btn-success">Sugerir tema</button>
+		    </div>
+		</div>
+	</div>
+
+    <footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-s6">
+					<br/>
+					<p>Medellín: </p>
+					<p><i class="fas fa-phone"></i>+(57 4) 372 20 22</p>
+					<p>Cra 42 (Aut. Sur) No. 72 - 11 4to piso</p>
+					<p>Edificio Capricentro - Itagüí</p>
+					
+				</div>
+				<div class="col-xs-s6">
+					<ul class= "list-inline text-right">
+						<li><a href="#"></a>Todos los derechos reservados. Imágenes propiedad de PSL S.A.S.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" 
+	crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<script src="js/smooth-scroll.min.js"></script>
+	<script >
+			var scroll = new SmoothScroll('a[href*="#"]', {
+		// Selectors
+		ignore: '[data-scroll-ignore]', // Selector for links to ignore (must be a valid CSS selector)
+		header: null, // Selector for fixed headers (must be a valid CSS selector)
+
+		// Speed & Easing
+		speed: 500, // Integer. How fast to complete the scroll in milliseconds
+		offset: 0, // Integer or Function returning an integer. How far to offset the scrolling anchor location in pixels
+		easing: 'easeInOutCubic', // Easing pattern to use
+		customEasing: function (time) {
+
+			// Function. Custom easing pattern
+			// If this is set to anything other than null, will override the easing option above
+
+			// return <your formulate with time as a multiplier>
+
+			// Example: easeInOut Quad
+			return time < 0.5 ? 2 * time * time : -1 + (4 - 2 * time) * time;
+
+		},
+
+		// Callback API
+		before: function (anchor, toggle) {}, // Callback to run before scroll
+		after: function (anchor, toggle) {} // Callback to run after scroll
+	    });
+    </script>
+</body>
+</html>

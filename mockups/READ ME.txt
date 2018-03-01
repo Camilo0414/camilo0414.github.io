@@ -1,0 +1,12 @@
+¡HOLA!
+
+1)Empieza abriendo el index.html para que puedas visualizar
+el diseño de mockups que presentamos.
+2)El botón buscar tema te llevará a la interfaz del colaborador
+con intención de buscar un tema ya sea para aprenderlo o guiarlo.
+3)El botón sugerir tema te llevará a la interfaz del colaborador
+con intención de sugerir un tema para que el administrador lo vea y lo cree posteriormente.
+4)Finalmente en la barra de navegación hay un enlace en "LearnersInTheMatch" para
+poder volver al inicio.
+
+¡GRACIAS!
