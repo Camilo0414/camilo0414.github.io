@@ -1,0 +1,5 @@
+1e7ccbb-2019-02-20 11:21:42-Camilo0414
+7	0	code_lines.log
+0	0	logfile.log => log_script.log
+4	0	script-get-code-lines.sh
+4	0	script-get-commits.sh
