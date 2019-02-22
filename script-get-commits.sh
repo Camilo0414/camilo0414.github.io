@@ -18,7 +18,16 @@ git checkout $principal
 
 unm_branches=`git branch --no-merged $principal` 
 
-echo $unm_branches
-#git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad'
+#echo $unm_branches
+for unm in $unm_branches ;
+do
+	commits=`git cherry -v $principal $unm | nawk '{print $2}'`
+	#git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad'
+done
 
+for cm in $commits ;
+do
+	git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' -1 $cm >> commits_unmerged.log
+done
+#echo $commits
 #echo $branches
