@@ -1,19 +1,24 @@
 #!/bin/bash
 
 typeset branches
-typeset after
-typeset before
 typeset commits
+typeset principal
+typeset unm_branches
+
+echo "Type the name of you main branch"
+read principal
 
 branches=`git branch -a | nawk -F/ '$1~/remotes/ && $2~/origin/ && $3!~/HEAD/ && $3!~/master/ { print $3} {if($4!="" && $3!~/HEAD/) print "/" $4}'`
 
-echo -e "Please, type the date since when you want your commit history. /nFormat YYYY-MM-DD HH:MM:SS/n"
-read after
-echo -e "Please, type the date until when you want your commit history. /nFormat YYYY-MM-DD HH:MM:SS/n"
-read before
-
-for br in $branches;
+for br in $branches ;
 do
-#	git checkout $b | git log --branches
-#commits=``
-echo $branches
+	git checkout $br 
+done
+git checkout $principal
+
+unm_branches=`git branch --no-merged $principal` 
+
+echo $unm_branches
+#git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad'
+
+#echo $branches
