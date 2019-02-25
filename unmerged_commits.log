@@ -1,0 +1,20 @@
+9f0fd19-unknown-2019-02-18 10:49:14
+0	0	README.md
+57	0	logfile.log
+12	0	webpages/webpageslein/.gitignore
+24	0	webpages/webpageslein/CHANGELOG.md
+277	0	webpages/webpageslein/LICENSE
+22	0	webpages/webpageslein/README.md
+3	0	webpages/webpageslein/doc/intro.md
+7	0	webpages/webpageslein/project.clj
+6	0	webpages/webpageslein/src/webpageslein/core.clj
+7	0	webpages/webpageslein/test/webpageslein/core_test.clj
+3d4c314-unknown-2019-02-19 13:46:18
+0	0	webpages/index/index.js
+27abb0a-juan-2019-02-19 14:06:32
+0	0	webpages/index/{index.js => index.html}
+d2d3dfe-juan-2019-02-19 14:17:41
+1	0	webpages/django/init.py
+10	0	webpages/index/index.html
+94407df-juan-2019-02-19 14:29:40
+1	0	webpages/django/mysql.db

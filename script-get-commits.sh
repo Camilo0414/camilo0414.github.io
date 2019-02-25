@@ -38,7 +38,7 @@ git checkout $principal
 git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' >> merged_commits.log
 
 #mix the commits in the proper format (unmerged - merged)
-cat log/unmerged_commits.log log/merged_commits.log > commits_log
+cat unmerged_commits.log merged_commits.log > commits_log
 
 #get the code lines per file
 git checkout $principal
