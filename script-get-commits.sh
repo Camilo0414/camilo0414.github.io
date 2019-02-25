@@ -43,4 +43,6 @@ cat unmerged_commits.log merged_commits.log > commits_log
 #get the code lines per file
 git checkout $principal
 git ls-files | xargs wc -l >> lines_file.log
+cat lines_file.log | uniq > code_lines_file.log
+
 
