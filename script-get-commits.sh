@@ -30,13 +30,17 @@ done
 #get the log for the unmerged commits, in its respectively format, and save it in the log directory
 for cm in $commits ;
 do
-	git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' -1 $cm >> log/unmerged_commits.log
+	git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' -1 $cm >> unmerged_commits.log
 done
 
 #get the log for the merged commits in main branch, in its respectively format
 git checkout $principal
-git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' >> log/merged_commits.log
+git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%h-%aN-%ad' >> merged_commits.log
 
 #mix the commits in the proper format (unmerged - merged)
+cat log/unmerged_commits.log log/merged_commits.log > commits_log
 
 #get the code lines per file
+git checkout $principal
+git ls-files | xargs wc -l >> lines_file.log
+
