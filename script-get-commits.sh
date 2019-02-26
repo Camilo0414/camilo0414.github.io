@@ -51,5 +51,5 @@ do
         git checkout $bn
         git ls-files >> lines_files.log
 done
-
+git checkout $principal
 cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
