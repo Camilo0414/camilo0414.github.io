@@ -49,7 +49,7 @@ git ls-files >> lines_files.log
 for bn in $branches ;
 do
         git checkout $bn
-        git ls-files >> lines_file.log
+        git ls-files >> lines_files.log
 done
 
-cat lines_file.log | sort | xargs wc -l > code_lines_file.log
+cat lines_files.log | sort | xargs wc -l > code_lines_file.log
