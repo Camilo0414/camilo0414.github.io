@@ -43,9 +43,13 @@ git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%H-%aN-%ad'
 cat unmerged_commits.log merged_commits.log > commits_log
 
 #get the code lines per file
+git checkout $principal
+git ls-files >> lines_files.log
+
 for bn in $branches ;
 do
-	git checkout $bn
-	git ls-files | xargs wc -l >> lines_file.log
+        git checkout $bn
+        git ls-files >> lines_file.log
 done
-cat lines_file.log | uniq > code_lines_file.log
+
+cat lines_file.log | sort | xargs wc -l > code_lines_file.log
