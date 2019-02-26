@@ -52,4 +52,4 @@ do
         git ls-files >> lines_files.log
 done
 
-cat lines_files.log | sort | xargs wc -l > code_lines_file.log
+cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
