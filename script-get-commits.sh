@@ -44,12 +44,14 @@ cat unmerged_commits.log merged_commits.log > commits_log
 
 #get the code lines per file
 git checkout $principal
-git ls-files >> lines_files.log
+git ls-files | xargs wc -l >> lines_files.log
 
 for bn in $branches ;
 do
         git checkout $bn
-        git ls-files >> lines_files.log
+        git ls-files | xargs c -l >> lines_files.log
 done
 git checkout $principal
+#¿los archivos deberían ser únicos? archivos transversales al proyecto que se modifiquen en distintos puntos
 cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
+#nawk para sumar y totalizar
