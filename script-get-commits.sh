@@ -1,6 +1,6 @@
 #!/bin/bash
 #remove the log files existing
-rm -rf unmerged_commits.log merged_commits.log commits_log lines_file.log
+rm -rf unmerged_commits.log merged_commits.log commits_log lines_file.log code_lines_file.log code_lines.log
 
 typeset branches
 typeset commits
@@ -52,6 +52,7 @@ do
         git ls-files | xargs c -l >> lines_files.log
 done
 git checkout $principal
+
 #¿los archivos deberían ser únicos? archivos transversales al proyecto que se modifiquen en distintos puntos
 cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
 #nawk para sumar y totalizar
