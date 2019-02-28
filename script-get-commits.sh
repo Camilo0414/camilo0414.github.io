@@ -1,6 +1,6 @@
 #!/bin/bash
 #remove the log files existing
-rm -rf unmerged_commits.log merged_commits.log commits.log lines_file.log code_lines_file.log code_lines.log
+rm -rf unmerged_commits.log merged_commits.log commits.log lines_files.log code_lines_file.log code_lines.log
 
 typeset branches
 typeset commits
