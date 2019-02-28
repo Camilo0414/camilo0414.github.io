@@ -1,6 +1,6 @@
 #!/bin/bash
 #remove the log files existing
-rm -rf unmerged_commits.log merged_commits.log commits_log lines_file.log code_lines_file.log code_lines.log
+rm -rf unmerged_commits.log merged_commits.log commits.log lines_file.log code_lines_file.log code_lines.log
 
 typeset branches
 typeset commits
@@ -40,7 +40,7 @@ git checkout $principal
 git log --numstat --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%H-%aN-%ad' >> merged_commits.log
 
 #mix the commits in the proper format (unmerged - merged)
-cat unmerged_commits.log merged_commits.log > commits_log
+cat unmerged_commits.log merged_commits.log > commits.log
 
 #get the code lines per file
 git checkout $principal
@@ -64,3 +64,4 @@ do
 	amount=$((amount+$line))
 done <<< "$total_lines"
 cat code_lines_file.log | sed '/total/d' > code_lines.log && echo " $amount total" >> code_lines.log
+
