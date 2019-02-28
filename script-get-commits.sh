@@ -54,7 +54,8 @@ done
 git checkout $principal
 
 #¿los archivos deberían ser únicos? archivos transversales al proyecto que se modifiquen en distintos puntos
-cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
+#cat lines_files.log | sort | uniq | xargs wc -l > code_lines_file.log
+cat lines_files.log | sort | xargs wc -l > code_lines_file.log
 #nawk para sumar y totalizar
 total_lines=`cat code_lines_file.log | nawk '$2~/total/ {print $1}'`
 
