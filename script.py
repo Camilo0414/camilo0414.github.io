@@ -47,14 +47,17 @@ for branch in branches_copy:
     subprocess.run(["git", "checkout", branch])
 subprocess.run(["git", "checkout", main])
 
+#Getting the branches unmerged to main
 unm_branches=subprocess.check_output("git branch --no-merged " + main , shell=True).decode("UTF-8")
 unm_branches= unm_branches.strip().split()
 #print(unm_branches)
 
+#Getting the unmerged commits
 commits_bash =""
 for unm in unm_branches:
     commits_bash+=subprocess.check_output("git cherry -v " + main +" "+ unm , shell=True).decode("UTF-8")
 
+#Formatting the output because we need the SHA HASH of each commit
 lines_of_commits=commits_bash.strip().splitlines()
 commits_sha=[]
 for cm in lines_of_commits:
@@ -67,20 +70,21 @@ pretty_format="%H-%"+"aN-%"+"ad"
 #--numstat --date=format:'"+date_format+"' --pretty=format:'"+pretty_format+"'
 
 ##FORMAT TROUBLE
-
+#getting the git log of unmerged commits
 git_log_unmerged_commits=""
 for cm in commits_sha:
     git_log_unmerged_commits+=subprocess.check_output("git log --numstat -1 " + cm,shell=True).decode("UTF-8")
 #print(git_log_unmerged_commits)
 
+#Getting the git log of merged commits
 git_log_merged_commits=subprocess.check_output("git log --numstat",shell=True).decode("UTF-8")
 #print(git_log_merged_commits)
 
+#merging both git logs
 git_log_commits = git_log_unmerged_commits + git_log_merged_commits
+#print(git_log_commits)
 
-print(git_log_commits)
-
-
+#different outputs depending OS
 csvfile="C:\\Users\\jibanezn\\Documents\\file.csv"
 
 #Assuming res is a flat list
