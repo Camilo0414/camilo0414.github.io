@@ -1,5 +1,7 @@
 import subprocess
 import csv
+from pathlib import Path
+import re
 
 
 #Get the main branch of the repository
@@ -65,39 +67,59 @@ for cm in lines_of_commits:
 #print(commits_sha)
 
 #Necessary
-date_format="%Y-%m-%d %H:%M:%S"
-pretty_format="%H-%"+"aN-%"+"ad"
-#--numstat --date=format:'"+date_format+"' --pretty=format:'"+pretty_format+"'
+date_format="--date=format:%s" % '%Y-%m-%d %H:%M:%S'
+pretty_format="--pretty=format:%s" % '%H,%aN,%ad'
 
-##FORMAT TROUBLE
 #getting the git log of unmerged commits
 git_log_unmerged_commits=""
 for cm in commits_sha:
-    git_log_unmerged_commits+=subprocess.check_output("git log --numstat -1 " + cm,shell=True).decode("UTF-8")
+    git_log_unmerged_commits+=subprocess.check_output(['git', 'log', '--numstat', date_format, pretty_format, "-1", cm],shell=True).decode("UTF-8") + "\n"
 #print(git_log_unmerged_commits)
 
 #Getting the git log of merged commits
-git_log_merged_commits=subprocess.check_output("git log --numstat",shell=True).decode("UTF-8")
+git_log_merged_commits=subprocess.check_output(['git','log','--numstat',date_format, pretty_format],shell=True).decode("UTF-8")
 #print(git_log_merged_commits)
 
 #merging both git logs
 git_log_commits = git_log_unmerged_commits + git_log_merged_commits
-#print(git_log_commits)
+print(git_log_commits)
+git_log_commits= git_log_commits.strip().split("\n\n")
+print(git_log_commits)
+
+    
+
 
 #different outputs depending OS
-csvfile="C:\\Users\\jibanezn\\Documents\\file.csv"
 
-#Assuming res is a flat list
+csvfile = Path("../commits.csv")
+csv2_file = Path("../commits2.csv")
 with open(csvfile, "w") as output:
-    writer = csv.writer(output, lineterminator='\n')
-    for val in git_log_commits.strip().split("\n"):
-        writer.writerow([val]) 
+    with open(csv2_file, "w") as output_2:
+        writer = csv.writer(output, lineterminator='\n')
+        writer2= csv.writer(output_2,lineterminator='\n')
+        encabezado=["commit_hash","author","date"]
+        encabezado2=["commit_hash","adds","deletes","files"]
+        writer.writerow(encabezado)
+        writer2.writerow(encabezado2)
+        for line in git_log_commits:
+            line_split=line.split("\n")
+            header=line_split[0].split(",")
+            writer.writerow(header)
+            line_split.pop(0)
+            for diff in line_split:
+                info_diff = diff.split("\t")
+                result = [header[0],info_diff[0],info_diff[1],info_diff[2]]
+                writer2.writerow(result)
 
-#print(branches_copy)
-#print(branches)
-
-#get subprocess
-#output=subprocess.check_output("git status", shell=True)
-#decode UTF-8
-#output_decoded=output.decode("UTF-8")
-#print(output_decoded)
+#with open(csv2_file, "w") as output:
+ #   writer = csv.writer(output, lineterminator='\n')
+  #  encabezado=["commit_hash","adds","deletes","files"]
+   # writer.writerow(encabezado)
+    #for line in git_log_commits:
+     #   line_split=line.split("\n")
+      #  header=line_split[0].split(",")
+       # line_split.pop(0)
+        #for diff in line_split:
+         #   info_diff = diff.split("\t")
+          #  result = [header[0],info_diff[0],info_diff[1],info_diff[2]]
+           # writer.writerow(result)
