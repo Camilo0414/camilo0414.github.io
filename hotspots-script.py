@@ -2,7 +2,9 @@ import subprocess
 import csv
 from pathlib import Path
 import tempfile
+import time
 
+init= time.time()
 
 #Get the main branch of the repository
 main=input("Type the name of your main branch: ")
@@ -72,40 +74,23 @@ date_format="--date=format:%s" % '%Y-%m-%d %H:%M:%S'
 pretty_format="--pretty=format:%s" % '%H,%aN,%ad'
 
 #getting the git log of unmerged commits
-
-temporal_file = tempfile.TemporaryFile(mode='w+t')
+temporal_file = tempfile.TemporaryFile(mode='w+t', encoding='UTF-8')
 try:
     #git_log_unmerged_commits=""
     for cm in commits_sha:
-        #git_log_unmerged_commits+=subprocess.check_output(['git', 'log', '--numstat', date_format, pretty_format, "-1", cm],shell=True).decode("UTF-8") + "\n"
-        temporal_file.writelines(subprocess.check_output(['git', 'log', '--numstat', date_format, pretty_format, "-1", cm],shell=True).decode("UTF-8") + "\n")
+        commit=subprocess.check_output(['git', 'log', '--numstat', date_format, pretty_format, "-1", cm],shell=True).decode("UTF-8") + "\n"
+        temporal_file.writelines(commit)
         temporal_file.seek(0)
-    #print(git_log_unmerged_commits)
 
     #Getting the git log of merged commits
-#    git_log_merged_commits=subprocess.check_output(['git','log','--numstat',date_format, pretty_format],shell=True).decode("UTF-8")
     temporal_file.writelines(subprocess.check_output(['git','log','--numstat',date_format, pretty_format],shell=True).decode("UTF-8"))
     temporal_file.seek(0)
 
-    #merging both git logs and separating them by double jump line    
-
-
-    #for line_unm in git_log_unmerged_commits:
-        #temporal_file.writelines(line_unm)
-        #temporal_file.seek(0)
-        #print(temporal_file.read())
-     #   print(line_unm)
-
-    #for line_merg in git_log_merged_commits:
-    #    temporal_file.writelines(line_merg)
-    #    temporal_file.seek(0)
-        #print(temporal_file.read())
-    
-    
+    #merging both git logs and separating them by double jump line       
     csv_general_file = Path("../general_commits.csv")
     csv_detailed_file = Path("../detailed_commits.csv")
-    with open(csv_general_file, "w") as output_general_file:
-        with open(csv_detailed_file, "w") as output_detailed_file:
+    with open(csv_general_file, "w", encoding="UTF-8") as output_general_file:
+        with open(csv_detailed_file, "w",  encoding="UTF-8") as output_detailed_file:
             writer_general = csv.writer(output_general_file, lineterminator='\n')
             writer_detailed = csv.writer(output_detailed_file,lineterminator='\n')
 
@@ -130,28 +115,9 @@ try:
                     line=temporal_file.readline()
 
                 else:
-                    line=temporal_file.readline()
-
-               
-                
+                    line=temporal_file.readline()             
 finally:
     temporal_file.close()
 
-
-#git_log_commits = git_log_unmerged_commits + git_log_merged_commits
-#git_log_commits= git_log_commits.strip().split("\n\n")
-
-
-#different outputs depending OS
-
-
-#        for line in git_log_commits:
- #           line_splitted=line.split("\n")
-  #          commit_header=line_splitted[0].split(",")
-   #         writer_general.writerow(commit_header)
-    #        line_splitted.pop(0)
-
-     #       for diff in line_splitted:
-      #          info_diff = diff.split("\t")
-       #         diff_result = [commit_header[0],info_diff[0],info_diff[1],info_diff[2]]
-        #        writer_detailed.writerow(diff_result) """
+total=time.time() - init
+print(total)
