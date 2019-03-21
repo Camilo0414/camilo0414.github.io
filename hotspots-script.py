@@ -11,7 +11,7 @@ main=input("Type the name of your main branch: ")
 branches = []
 
 #Get the git bash response to command
-branches_bash=subprocess.check_output("git branch -a").decode("UTF-8")
+branches_bash=subprocess.check_output("git branch -a", shell=True).decode("UTF-8")
 #branches_bash+="remote/origin/WEBVIEW/HTML5/Queen"
 remote_branches=branches_bash.strip().split("\n")
 
@@ -70,7 +70,7 @@ for cm in lines_of_commits:
 #print(commits_sha)
 
 #Necessary
-date_format="--date=format:%s" % '%Y-%m-%d %H:%M:%S'
+date_format="--date=format:%s" % '%Y-%m-%d%H:%M:%S'
 pretty_format="--pretty=format:%s" % '%H,%aN,%ad'
 
 #getting the git log of unmerged commits
