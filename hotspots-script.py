@@ -78,12 +78,12 @@ temporal_file = tempfile.TemporaryFile(mode='w+t', encoding='UTF-8')
 try:
     #git_log_unmerged_commits=""
     for cm in commits_sha:
-        commit=subprocess.check_output(['git', 'log', '--numstat', date_format, pretty_format, "-1", cm],shell=True).decode("UTF-8") + "\n"
+        commit=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format + ' -1 ' + cm,shell=True).decode("UTF-8") + "\n"
         temporal_file.writelines(commit)
         temporal_file.seek(0)
 
     #Getting the git log of merged commits
-    temporal_file.writelines(subprocess.check_output(['git','log','--numstat',date_format, pretty_format],shell=True).decode("UTF-8"))
+    temporal_file.writelines(subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format ,shell=True).decode("UTF-8"))
     temporal_file.seek(0)
 
     #merging both git logs and separating them by double jump line       
