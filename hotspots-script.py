@@ -8,7 +8,7 @@ import sys, getopt
 
 init= time.time()
 
-#Get the main branch of the repository
+#Get the main branch of the repository by the args and the days to look behind in commits
 argv= sys.argv[1:]
 main=""
 days_to_look=""
@@ -16,7 +16,7 @@ days_to_look=""
 try:
     opts, args = getopt.getopt(argv,"b:d:",["main-branch=", "days-behind="])
 except getopt.GetoptError:
-    print("hotspots-script.py -b <main branch> -d <days to look up>")
+    print("hotspots-script.py -b <main branch> -d <days to look behind>")
     sys.exit(2)
 
 for opt, arg in opts:
