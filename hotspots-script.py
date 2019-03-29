@@ -5,6 +5,7 @@ import tempfile
 from datetime import date, timedelta
 import time
 import sys, getopt
+import re
 
 init= time.time()
 
@@ -76,8 +77,15 @@ unm_branches= unm_branches.strip().split()
 
 #Getting the unmerged commits
 commits_bash =""
+commits_vs_branch={}
 for unm in unm_branches:
     commits_bash+=subprocess.check_output("git cherry -v " + main +" "+ unm , shell=True).decode("UTF-8")
+    for cm in commits_bash.strip().splitlines():
+        key = cm[2:42]
+        commits_vs_branch[key] = unm    
+
+#for x,y in commits_vs_branch.items():
+ #   print(x,y)
 
 #Formatting the output because we need the SHA HASH of each commit
 lines_of_commits=commits_bash.strip().splitlines()
@@ -88,19 +96,27 @@ for cm in lines_of_commits:
 
 #Necessary
 date_format="--date=format:%s" % '%Y-%m-%d-%H:%M:%S'
-pretty_format="--pretty=format:%s" % '%H,%aN,%ad'
+pretty_format="--pretty=format:%s" % '%H;%aN;%ad;'
 
 #getting the git log of unmerged commits
 temporal_file = tempfile.TemporaryFile(mode='w+t', encoding='UTF-8')
 try:
+    commit =""
     #git_log_unmerged_commits=""
     for cm in commits_sha:
-        commit=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look+' -1 ' + cm,shell=True).decode("UTF-8") + "\n"
-        temporal_file.writelines(commit)
-        temporal_file.seek(0)
+        commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look+' -1 ' + cm,shell=True).decode("UTF-8")
+
+#        temporal_file.writelines(commit)
+ #       temporal_file.seek(0)
 
     #Getting the git log of merged commits
-    temporal_file.writelines(subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8"))
+    commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8")
+    #temporal_file.writelines(subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8"))
+    #print(commit)
+    
+
+
+    temporal_file.writelines(commit)
     temporal_file.seek(0)
 
     #merging both git logs and separating them by double jump line       
@@ -108,31 +124,39 @@ try:
     csv_detailed_file = Path("../detailed_commits.csv")
     with open(csv_general_file, "w", encoding="UTF-8") as output_general_file:
         with open(csv_detailed_file, "w",  encoding="UTF-8") as output_detailed_file:
-            writer_general = csv.writer(output_general_file, lineterminator='\n')
-            writer_detailed = csv.writer(output_detailed_file,lineterminator='\n')
+            writer_general = csv.writer(output_general_file, lineterminator='\n', delimiter=';')
+            writer_detailed = csv.writer(output_detailed_file,lineterminator='\n', delimiter=';')
 
-            header_line_general=["commit_hash","author","date"]
+            header_line_general=["commit_hash","author","date","branch"]
             header_line_detailed=["commit_hash","adds","deletes","files"]
 
             writer_general.writerow(header_line_general)
             writer_detailed.writerow(header_line_detailed)
             
-            line=temporal_file.readline()
+            line=temporal_file.readline()                    
             
             while line:
-                if "," in line:
-                    commit_hash=line.split(",")[0]
-                    writer_general.writerow([line])
-                    line=temporal_file.readline()
-
-                elif "\t" in line:
-                    diff_info=line.strip().split("\t")
-                    diff_info.insert(0,commit_hash)
-                    writer_detailed.writerow(diff_info)
-                    line=temporal_file.readline()
-
-                else:
-                    line=temporal_file.readline()             
+                for x, y in commits_vs_branch.items():
+                    if ";" in line:
+                            if x in line:
+                                new_line=re.sub("\n", y, line)
+                                commit_hash=new_line.split(";")[0]
+                                writer_general.writerow([new_line])
+                                line=temporal_file.readline()
+                            else:
+                                new_line=re.sub("\n", main, line)
+                                commit_hash=new_line.split(";")[0]
+                                writer_general.writerow([new_line])
+                                line=temporal_file.readline()
+                    elif "\t" in line:
+                        if "\n" in line:
+                            new_line=re.sub("\n", "", line)
+                            diff_info=new_line.strip().split("\t")
+                            diff_info.insert(0,commit_hash)
+                            writer_detailed.writerow(diff_info)
+                            line=temporal_file.readline()
+                    else:
+                        line=temporal_file.readline()             
 finally:
     temporal_file.close()
 
