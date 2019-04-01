@@ -95,8 +95,9 @@ for cm in lines_of_commits:
 #print(commits_sha)
 
 #Necessary
-date_format="--date=format:%s" % '%Y-%m-%d-%H:%M:%S'
-pretty_format="--pretty=format:%s" % '%H;%aN;%ad;'
+date_format="--date=format:'%s'" % '%Y-%m-%d-%H:%M:%S'
+pretty_format="--pretty=format:'%s'" % '%H;%aN;%ad;'
+
 
 #getting the git log of unmerged commits
 temporal_file = tempfile.TemporaryFile(mode='w+t', encoding='UTF-8')
@@ -104,13 +105,13 @@ try:
     commit =""
     #git_log_unmerged_commits=""
     for cm in commits_sha:
-        commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look+' -1 ' + cm,shell=True).decode("UTF-8")
+        commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after=\''+date_to_look+'\''+ ' -1 ' + cm,shell=True).decode("UTF-8")
 
 #        temporal_file.writelines(commit)
  #       temporal_file.seek(0)
 
     #Getting the git log of merged commits
-    commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8")
+    commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after=\''+date_to_look+'\'',shell=True).decode("UTF-8")
     #temporal_file.writelines(subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8"))
     #print(commit)
     
