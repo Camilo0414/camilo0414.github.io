@@ -95,8 +95,8 @@ for cm in lines_of_commits:
 #print(commits_sha)
 
 #Necessary
-date_format="--date=format:'%s'" % '%Y-%m-%d-%H:%M:%S'
-pretty_format="--pretty=format:'%s'" % '%H;%aN;%ad;'
+date_format="--date=format:%s" % '\'%Y-%m-%d-%H:%M:%S\''
+pretty_format="--pretty=format:%s" % '\'%H;%aN;%ad;\''
 
 
 #getting the git log of unmerged commits
