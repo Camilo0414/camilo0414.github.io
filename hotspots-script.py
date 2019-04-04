@@ -6,8 +6,8 @@ from datetime import date, timedelta
 import time
 import sys, getopt
 import re
-
-init= time.time()
+import pandas as pd
+import numpy as np
 
 #Get the main branch of the repository by the args and the days to look behind in commits
 argv= sys.argv[1:]
@@ -27,9 +27,10 @@ for opt, arg in opts:
         days_to_look=int(arg)
 
 date_to_look = str(date.today() - timedelta(days=days_to_look))
-branches = []
+
 
 #Get the git bash response to command
+branches = []
 branches_bash=subprocess.check_output("git branch -a", shell=True).decode("UTF-8")
 remote_branches=branches_bash.strip().split("\n")
 
@@ -40,17 +41,14 @@ for line in remote_branches:
     if "remotes/origin" in line:
         if main not in line:
             split=line.strip().split("/")
-            #print(len(split))
             count=2
             for word in split:
                 if "remote" not in word:
                     if "origin" not in word:
                         count+=1
-                        #print(word)
                         if count < len(split):
                             new_word=word + "/"
                             branches.append(new_word)
-                            #print(branches)
                         else:
                             branches.append(word)
 
@@ -73,7 +71,6 @@ subprocess.run(["git", "checkout", main])
 #Getting the branches unmerged to main
 unm_branches=subprocess.check_output("git branch --no-merged " + main , shell=True).decode("UTF-8")
 unm_branches= unm_branches.strip().split()
-#print(unm_branches)
 
 #Getting the unmerged commits
 commits_bash =""
@@ -84,15 +81,11 @@ for unm in unm_branches:
         key = cm[2:42]
         commits_vs_branch[key] = unm    
 
-#for x,y in commits_vs_branch.items():
- #   print(x,y)
-
 #Formatting the output because we need the SHA HASH of each commit
 lines_of_commits=commits_bash.strip().splitlines()
 commits_sha=[]
 for cm in lines_of_commits:
     commits_sha.append(cm[2:42])
-#print(commits_sha)
 
 #Necessary
 date_format="--date=format:%s" % '\'%Y-%m-%d-%H:%M:%S\''
@@ -103,20 +96,11 @@ pretty_format="--pretty=format:%s" % '\'%H;%aN;%ad;\''
 temporal_file = tempfile.TemporaryFile(mode='w+t', encoding='UTF-8')
 try:
     commit =""
-    #git_log_unmerged_commits=""
     for cm in commits_sha:
         commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after=\''+date_to_look+'\''+ ' -1 ' + cm,shell=True).decode("UTF-8")
 
-#        temporal_file.writelines(commit)
- #       temporal_file.seek(0)
-
     #Getting the git log of merged commits
     commit+=subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after=\''+date_to_look+'\'',shell=True).decode("UTF-8")
-    #temporal_file.writelines(subprocess.check_output('git log --numstat ' + date_format +' '+ pretty_format +' --after='+date_to_look,shell=True).decode("UTF-8"))
-    #print(commit)
-    
-
-
     temporal_file.writelines(commit)
     temporal_file.seek(0)
 
@@ -161,5 +145,16 @@ try:
 finally:
     temporal_file.close()
 
-total=time.time() - init
-print(total)
+#the CSV files need one last formatting, so i used pandas to fix it
+#general commits csv
+df_general_commits = pd.read_csv("../general_commits.csv", sep=";")
+data_commit_hashes=df_general_commits['commit_hash']
+fixed_commit_hashes=data_commit_hashes.str.replace("'","")
+fixed_commit_hashes=fixed_commit_hashes.str.split(pat = ";", expand=True)
+fixed_commit_hashes.columns=["commit_hash","author","date","branch"]
+final_df_general= pd.DataFrame(fixed_commit_hashes,columns=["commit_hash","author","date","branch"])
+export_csv = final_df_general.to_csv(csv_general_file,index=None,header=True)
+#detailed commits csv
+df_detailed = pd.read_csv("../detailed_commits.csv", sep=";")
+df_detailed['commit_hash'] = df_detailed['commit_hash'].apply(lambda x: x.replace("'",""))
+export_csv = df_detailed.to_csv(csv_detailed_file,index=None,header=True)
