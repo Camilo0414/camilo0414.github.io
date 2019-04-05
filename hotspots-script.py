@@ -3,6 +3,7 @@ import csv
 from pathlib import Path
 import tempfile
 from datetime import date, timedelta
+import datetime
 import time
 import sys, getopt
 import re
@@ -88,7 +89,8 @@ for cm in lines_of_commits:
     commits_sha.append(cm[2:42])
 
 #Necessary
-date_format="--date=format:%s" % '\'%Y-%m-%d-%H:%M:%S\''
+date_format="--date=iso"
+#format:%s" % '\'%Y-%m-%d-%H:%M:%S\''
 pretty_format="--pretty=format:%s" % '\'%H;%aN;%ad;\''
 
 
