@@ -123,7 +123,6 @@ try:
             line=temporal_file.readline()                    
             
             while line:
-                print(line)
                 ismain=True
                 if ";" in line:
                     for x, y in commits_vs_branch.items():
