@@ -123,27 +123,36 @@ try:
             line=temporal_file.readline()                    
             
             while line:
-                for x, y in commits_vs_branch.items():
-                    if ";" in line:
-                            if x in line:
-                                new_line=re.sub("\n", y, line)
-                                commit_hash=new_line.split(";")[0]
-                                writer_general.writerow([new_line])
-                                line=temporal_file.readline()
-                            else:
-                                new_line=re.sub("\n", main, line)
-                                commit_hash=new_line.split(";")[0]
-                                writer_general.writerow([new_line])
-                                line=temporal_file.readline()
-                    elif "\t" in line:
-                        if "\n" in line:
+                print(line)
+                ismain=True
+                if ";" in line:
+                    for x, y in commits_vs_branch.items():
+                        if x in line:
+                            new_line=re.sub("\n", y, line)
+                            commit_hash=new_line.split(";")[0]
+                            writer_general.writerow([new_line])
+                            line=temporal_file.readline()
+                            ismain=False
+                            break
+                else:
+                    ismain=False
+
+
+                if  ismain:
+                    new_line=re.sub("\n", main, line)
+                    commit_hash=new_line.split(";")[0]
+                    writer_general.writerow([new_line])
+                    line=temporal_file.readline()
+
+                if "\t" in line:
+                    if "\n" in line:
                             new_line=re.sub("\n", "", line)
                             diff_info=new_line.strip().split("\t")
                             diff_info.insert(0,commit_hash)
                             writer_detailed.writerow(diff_info)
                             line=temporal_file.readline()
-                    else:
-                        line=temporal_file.readline()             
+                else:
+                    line=temporal_file.readline()             
 finally:
     temporal_file.close()
 
