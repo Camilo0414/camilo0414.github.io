@@ -1,2 +1,2 @@
-# camilo0414.github.io
-This is a repo for my personal webpage
+# camilo0414.github.io/webpages/index.html
+This is a repo for my webpage
